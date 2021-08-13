@@ -1,7 +1,23 @@
 @extends('layouts.mytemplate')
 
-@section('title', 'Contact page')
+@section('title', 'flowers list')
 
 @section('content')
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt dignissimos suscipit tenetur accusantium libero excepturi dolores nam. Iure hic nisi sunt consectetur facere, fugiat unde modi placeat. Facilis, excepturi iure!</p>
+
+<h2>Flowers list</h2>
+
+@if(count($flowers)>0)
+
+    @foreach($flowers as $flower)
+    <li>
+        Name: {{ $flower->name }}<br>
+        Price: {{ $flower->price }} <br>
+        Image:<img src="{{ $flower->image }}" width="400px">
+
+    </li>
+    @endforeach
+
+@endif
+
+
 @endsection

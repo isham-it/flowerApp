@@ -16,9 +16,20 @@ class FlowerController extends Controller
     {
         $flowers = DB::select('SELECT * FROM flowers');
 
+        //dd($flowers);
+
         // To display a specific view :
-        return view('flowers', ['flo' => $flowers]);
+        return view('flowers', ['flowers' => $flowers]);
     }
+
+    
+    // Handle request to see one specific flower
+    public function handle_flower($id)
+    {
+        
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -27,7 +38,8 @@ class FlowerController extends Controller
      */
     public function create()
     {
-        //
+        // display the form to create flower
+        return view('create-flower');
     }
 
     /**
@@ -38,7 +50,16 @@ class FlowerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // function to save in DB the new flower
+
+        // Insert manual value :
+        //DB::insert('INSERT INTO flowers(name, price) VALUES(?, ?)', ['tulip', 36]);
+
+        // $request contains every data from the form
+        $result = DB::insert('INSERT INTO flowers(name, price) VALUES(?, ?)', [$request->name, $request->price]);
+
+        return 'Need to save the flower';
+
     }
 
     /**
@@ -49,7 +70,10 @@ class FlowerController extends Controller
      */
     public function show($id)
     {
-        //
+        // display only one flower
+        // Controller have to pass $id to the view
+        return view('flower-details', ['id' => $id]);
+        
     }
 
     /**
@@ -60,7 +84,8 @@ class FlowerController extends Controller
      */
     public function edit($id)
     {
-        //
+        // first : retrieve flower info and show the form to update flower
+        
     }
 
     /**
@@ -72,7 +97,9 @@ class FlowerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // second : save in db
+
+        DB::update('UPDATE flowers SET name = ? WHERE id = ?', [$request->name, $id]);
     }
 
     /**
@@ -83,6 +110,7 @@ class FlowerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //remove a specific flower
+        DB::delete('DELETE FROM flowers WHERE id = ?', [$id]);
     }
 }
