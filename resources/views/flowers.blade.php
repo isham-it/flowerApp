@@ -9,12 +9,12 @@
 @if(count($flowers)>0)
 
     @foreach($flowers as $flower)
-    <li>
-        Name: {{ $flower->name }}<br>
-        Price: {{ $flower->price }} <br>
-        Image:<img src="{{ $flower->image }}" width="400px">
+    
+        <ul>Name: {{ $flower->name }}</ul>
+        <ul>Price: {{ $flower->price }} </ul>
+        
 
-    </li>
+    
     @endforeach
 
 @endif

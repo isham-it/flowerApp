@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form action="" method="post">
+    <form action="create-flower" method="post">
         @csrf
         <input type="text" name="name" placeholder="Name"><br>
 
