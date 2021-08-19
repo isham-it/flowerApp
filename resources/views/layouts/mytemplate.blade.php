@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,10 +11,21 @@
 <body>
     <nav>
         <ul>
-            <li>Page 1</li>
-            <li>Page 2</li>
+            <li><a href="">Home page</a></li>
+
+            <li><a href="{{ url('flowers') }}">Flowers page</a></li>
+            <li><a href="{{ url('new-flower') }}">Create flower page</a></li>
         </ul>
     </nav>
+    
+    <form action="" method="post">
+        @csrf
+        <input type="text" name="name" placeholder="Name"><br>
+
+        <input type="number" name="price" placeholder="Price"><br>
+
+        <input type="submit" value="Create flower">
+    </form>
 
     <div class="content">
         @yield('content')

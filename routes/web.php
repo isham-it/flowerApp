@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MovieController;
 use App\Http\Controllers\FlowerController;
 
 /*
@@ -15,43 +14,33 @@ use App\Http\Controllers\FlowerController;
 |
 */
 
-// route available at localhost/ and display 'welcome' view
 Route::get('/', function () {
-    // same thing as require_once 'welcome.blade.php';
-    return 'hello the world';
+    return view('welcome');
 });
 
-Route::get('/flowers', function () {
-    // Flowers list : need to create link to see details
-    /*
-    Example of using route's name :
-    $url = route('movie.details', [2]);
-    return $url;
-    */
-    return 'Hellloooooo, this is just a test.';
-});
+/*
+    Create a route every time you need :
+        - To access a page / view
+        - To perfom an action (saving in DB; looking for something)
+*/
 
-// Now, I acces route like this : localhost:8000/id/3
-Route::get('/flower/{id}', function ($id) {
-    return 'flower with id : ' . $id;
-})->name('flower.details');
+Route::get('/flowers', [FlowerController::class, 'index']);
+
+// Show the form to create flowers
+Route::get('/new-flower', [FlowerController::class, 'create']);
+Route::post('/new-flower', [FlowerController::class, 'store']);
+
+// Show the form to update a  flower
+Route::get('/update/flower/{id}', [FlowerController::class, 'edit'])->name('update.flower');
+Route::post('/update/flower/{id}', [FlowerController::class, 'update']);
+
+Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('delete.flower');;
+
+// CREATE THE ROUTE TO DISPLAY ONE SPECIFIC FLOWER
+Route::get('/flower/{id}', [FlowerController::class, 'show'])->name('details.flower');
+
+// CREATE THE ROUTE TO DISPLAY ONE SPECIFIC COMMENT FLOWER
+//Route::get('/flower/{id}', [FlowerController::class, 'comment'])->comment('details.flower');
+//Route::post('/flower/{id}', [FlowerController::class, 'store']);
 
 
-
-
-
-/******* ROUTES LINKED TO CONTROLLERS *******/
-Route::get('flowers', [FlowerController::class, 'index']);
-
-// Show a specific flower :
-Route::get('flower-detail/{id}', [FlowerController::class, 'show']);
-
-// Show the form :
-    Route::get('create-flower', [FlowerController::class, 'create']);
-    
-    // Save data (using post method):
-    Route::post('create-flower', [FlowerController::class, 'store']);
-    
-    
-    // Update a specific flower :
-    Route::get('update/{id}', [FlowerController::class, 'update']);

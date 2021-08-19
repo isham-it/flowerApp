@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,7 @@
 </head>
 
 <body>
-    <form action="create-flower" method="post">
+    <form action="" method="post">
         @csrf
         <input type="text" name="name" placeholder="Name"><br>
 

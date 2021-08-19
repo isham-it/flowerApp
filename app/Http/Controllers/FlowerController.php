@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\DB;
+use App\Models\Flower;
 
 class FlowerController extends Controller
 {
@@ -14,22 +15,12 @@ class FlowerController extends Controller
      */
     public function index()
     {
-        $flowers = DB::select('SELECT * FROM flowers');
-
-        //dd($flowers);
+        //$flowers = DB::select('SELECT * FROM flowers');
+        $flowers = Flower::all();
 
         // To display a specific view :
         return view('flowers', ['flowers' => $flowers]);
     }
-
-    
-    // Handle request to see one specific flower
-    public function handle_flower($id)
-    {
-        
-    }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -38,9 +29,14 @@ class FlowerController extends Controller
      */
     public function create()
     {
-        // display the form to create flower
-        return view('create-flower');
+        return view('new-flower');
     }
+    public function comment()
+    {
+        return view('new-flower');
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,16 +46,29 @@ class FlowerController extends Controller
      */
     public function store(Request $request)
     {
-        // function to save in DB the new flower
+        // Validate automatically return back() to previous page if errors
+        $validated = $request->validate([
+            'name' => 'required|max:30',
+            'price' => 'required|numeric|min:2|max:100',
+        ]);
 
-        // Insert manual value :
-        //DB::insert('INSERT INTO flowers(name, price) VALUES(?, ?)', ['tulip', 36]);
+        /*
+           DB::insert(
+            'INSERT INTO flowers(name, price) VALUES(?, ?)',
+            [$request->name, $request->price]
+        );
+*/
 
-        // $request contains every data from the form
-        $result = DB::insert('INSERT INTO flowers(name, price) VALUES(?, ?)', [$request->name, $request->price]);
+        $flower = new Flower;
 
-        return 'Need to save the flower';
+        $flower->name = $request->name;
+        $flower->price = $request->price;
+        $flower->comment = $request->comment;
 
+        $flower->save();
+
+        // redirect to flowers list with a message
+        return redirect('flowers')->with('success', $request->name . ' was created successfully');
     }
 
     /**
@@ -70,10 +79,21 @@ class FlowerController extends Controller
      */
     public function show($id)
     {
-        // display only one flower
-        // Controller have to pass $id to the view
-        return view('flower-details', ['id' => $id]);
-        
+        // Grab the flower
+        //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
+        $flower = Flower::find($id);
+
+
+        //affichage des commentaires
+        $comments = Flower::find($id)->comments;
+
+
+        //dd($flower->comments);
+
+        // Show the form
+        return view('details-flower', ['flower' => $flower]);
+        // Show the form
+        return view('details-flower', ['flower' => $comments]);
     }
 
     /**
@@ -84,8 +104,13 @@ class FlowerController extends Controller
      */
     public function edit($id)
     {
-        // first : retrieve flower info and show the form to update flower
-        
+        // Grab the flower
+        //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
+
+        $flower = Flower::find($id);
+
+        // Show the form
+        return view('update-flower', ['flower' => $flower]);
     }
 
     /**
@@ -97,9 +122,16 @@ class FlowerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // second : save in db
+        //DB::update('UPDATE flowers SET name=?, price=? WHERE id = ?', [$request->name, $request->price, $id]);
+        $flower = Flower::find($id);
 
-        DB::update('UPDATE flowers SET name = ? WHERE id = ?', [$request->name, $id]);
+        $flower->name = $request->name;
+        $flower->price = $request->price;
+
+        $flower->save();
+
+        // redirect to flowers list with a message
+        return redirect('flowers')->with('success', $request->name . ' was updated successfully');
     }
 
     /**
@@ -110,7 +142,12 @@ class FlowerController extends Controller
      */
     public function destroy($id)
     {
-        //remove a specific flower
-        DB::delete('DELETE FROM flowers WHERE id = ?', [$id]);
+        Flower::destroy($id);
+        //DB::delete('DELETE FROM flowers WHERE id = ?', [$id]);
+
+        // redirect to flowers list with a message
+        return redirect('flowers')->with('success', 'Flower deleted');
     }
+
+
 }
