@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FlowerController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ApiFlowerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +48,8 @@ Route::get('/movies', [MovieController::class, 'index']);
 
 Route::get('/api/get-movies', [ApiController::class, 'getMovies']);
 Route::get('/api/get-movie/title={title}', [ApiController::class, 'getMovie']);
+
+Route::get('/api/get-flowers', [ApiFlowerController::class, 'getFlowers']);
+Route::get('/api/get-flower/{amount}', [ApiFlowerController::class, 'getFlower']);
+
+

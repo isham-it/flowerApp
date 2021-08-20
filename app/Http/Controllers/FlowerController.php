@@ -63,7 +63,6 @@ class FlowerController extends Controller
 
         $flower->name = $request->name;
         $flower->price = $request->price;
-        $flower->comment = $request->comment;
 
         $flower->save();
 
@@ -84,9 +83,9 @@ class FlowerController extends Controller
         $flower = Flower::find($id);
 
 
-        //affichage des commentaires
-        $comments = $flower->comments;
 
+
+        $comments=$flower->comments;
 
         //dd($flower->comments);
 
