@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FlowerController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +41,9 @@ Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('d
 // CREATE THE ROUTE TO DISPLAY ONE SPECIFIC FLOWER
 Route::get('/flower/{id}', [FlowerController::class, 'show'])->name('details.flower');
 
-// CREATE THE ROUTE TO DISPLAY ONE SPECIFIC COMMENT FLOWER
-//Route::get('/flower/{id}', [FlowerController::class, 'comment'])->comment('details.flower');
-//Route::post('/flower/{id}', [FlowerController::class, 'store']);
+
+Route::get('/movies', [MovieController::class, 'index']);
 
 
+Route::get('/api/get-movies', [ApiController::class, 'getMovies']);
+Route::get('/api/get-movie/title={title}', [ApiController::class, 'getMovie']);

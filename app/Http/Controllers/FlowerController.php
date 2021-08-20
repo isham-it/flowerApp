@@ -85,15 +85,14 @@ class FlowerController extends Controller
 
 
         //affichage des commentaires
-        $comments = Flower::find($id)->comments;
+        $comments = $flower->comments;
 
 
         //dd($flower->comments);
 
         // Show the form
-        return view('details-flower', ['flower' => $flower]);
-        // Show the form
-        return view('details-flower', ['flower' => $comments]);
+        return view('details-flower', ['flower' => $flower,'comments'=>$comments]);
+
     }
 
     /**
