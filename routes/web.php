@@ -50,6 +50,8 @@ Route::get('/api/get-movies', [ApiController::class, 'getMovies']);
 Route::get('/api/get-movie/title={title}', [ApiController::class, 'getMovie']);
 
 Route::get('/api/get-flowers', [ApiFlowerController::class, 'getFlowers']);
-Route::get('/api/get-flower/{amount}', [ApiFlowerController::class, 'getFlower']);
+Route::get('/api/get-flower/{amount}', [ApiFlowerController::class, 'getAmountFlower']);
+Route::get('/api/get-flowers/{id}', [ApiFlowerController::class, 'getIdFlower']);
+Route::get('/api/get-type/{type}', [ApiFlowerController::class, 'getTypeFlower']);
 
-
+//Route::get('/api/get-flowers/{id}', [ApiFlowerController::class, 'getIdFlower']);

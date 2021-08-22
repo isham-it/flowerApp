@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    
     <nav>
         <ul>
             <li><a href="">Home page</a></li>
@@ -18,10 +19,17 @@
         </ul>
     </nav>
 
-    
+
+
+
     <div class="content">
         @yield('content')
+
     </div>
+
+    <footer>
+        <p>This is my SPECIAL footer</p>
+    </footer>
 </body>
 
 </html>

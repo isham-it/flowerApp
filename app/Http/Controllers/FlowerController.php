@@ -64,6 +64,7 @@ class FlowerController extends Controller
         $flower->name = $request->name;
         $flower->price = $request->price;
 
+
         $flower->save();
 
         // redirect to flowers list with a message
@@ -82,9 +83,6 @@ class FlowerController extends Controller
         //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
         $flower = Flower::find($id);
 
-
-
-
         $comments=$flower->comments;
 
         //dd($flower->comments);
@@ -93,6 +91,19 @@ class FlowerController extends Controller
         return view('details-flower', ['flower' => $flower,'comments'=>$comments]);
 
     }
+    public function showType($type)
+    {
+        // Grab the flower
+        //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
+        //$flower = Flower::find($id);
+        $flowers = Flower::where('type','like',$type)->get();
+
+        // Show the form
+        return view('flowers', ['type' => $type]);
+
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

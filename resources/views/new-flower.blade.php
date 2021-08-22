@@ -16,6 +16,13 @@
 
         <input type="number" name="price" placeholder="Price"><br>
 
+        <label for="type">Choose a type</label>
+        <select name="type" id="type">
+            <option value="magnoliophyta">Magnoliophyta</option>
+            <option value="asteraceae">Asteraceae</option>
+        </select><br>
+
+
         <input type="submit" value="Create flower">
     </form>
 </body>
