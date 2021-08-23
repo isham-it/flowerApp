@@ -5,9 +5,9 @@
 
 
 @section('content')
-   
+
     <p><strong>Name : </strong> {{$flower->name}}</p>
-    <p><strong>Price : </strong> {{$flower->price}}</p>
+    <p><strong>Price : </strong> {{$flower->priceFormatted}}</p>
     <p><strong>Type : </strong> {{$flower->type}}</p>
 
     <hr>

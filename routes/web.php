@@ -29,15 +29,20 @@ Route::get('/', function () {
 
 Route::get('/flowers', [FlowerController::class, 'index']);
 
+//index page
+Route::get('/home', [FlowerController::class, 'home']);
+
 // Show the form to create flowers
 Route::get('/new-flower', [FlowerController::class, 'create']);
 Route::post('/new-flower', [FlowerController::class, 'store']);
+
 
 // Show the form to update a  flower
 Route::get('/update/flower/{id}', [FlowerController::class, 'edit'])->name('update.flower');
 Route::post('/update/flower/{id}', [FlowerController::class, 'update']);
 
-Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('delete.flower');;
+Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('delete.flower');
+
 
 // CREATE THE ROUTE TO DISPLAY ONE SPECIFIC FLOWER
 Route::get('/flower/{id}', [FlowerController::class, 'show'])->name('details.flower');
@@ -49,9 +54,28 @@ Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/api/get-movies', [ApiController::class, 'getMovies']);
 Route::get('/api/get-movie/title={title}', [ApiController::class, 'getMovie']);
 
+//create the route for API get flower
 Route::get('/api/get-flowers', [ApiFlowerController::class, 'getFlowers']);
 Route::get('/api/get-flower/{amount}', [ApiFlowerController::class, 'getAmountFlower']);
 Route::get('/api/get-flowers/{id}', [ApiFlowerController::class, 'getIdFlower']);
 Route::get('/api/get-type/{type}', [ApiFlowerController::class, 'getTypeFlower']);
 
-//Route::get('/api/get-flowers/{id}', [ApiFlowerController::class, 'getIdFlower']);
+// Display the form
+Route::get('/ajax-form', [MovieController::class, 'ajaxForm'])->name('show.ajax.form');
+// When we submit the form MOVIE
+Route::post('/ajax-answer', [MovieController::class, 'ajaxAnswer'])->name('submit.ajax.form');
+
+
+// Display the form FLOWER
+Route::get('/ajax-flower', [FlowerController::class, 'ajaxFlowerForm']);
+
+// When we submit the form
+Route::post('/ajax-flower', [FlowerController::class, 'ajaxFlowerAnswer'])->name('submit.ajax.form');
+
+
+//route USER
+// Display the form
+Route::get('/user-form', [UserController::class, 'ajaxForm']);
+// When we submit the form
+Route::post('/user-answer', [UserController::class, 'ajaxAnswer'])->name('submit.ajax.form');
+

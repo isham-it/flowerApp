@@ -9,11 +9,10 @@
 </head>
 
 <body>
-    
+
     <nav>
         <ul>
-            <li><a href="">Home page</a></li>
-
+            <li><a href="{{ url('home') }}">Index</a></li>
             <li><a href="{{ url('flowers') }}">Flowers page</a></li>
             <li><a href="{{ url('new-flower') }}">Create flower page</a></li>
         </ul>

@@ -23,7 +23,7 @@ class ApiFlowerController extends Controller
     public function getIdFlower($id)
     {
         //find pour rechercher par ID
-        $flowers = Flower::find($id)->get();
+        $flowers = Flower::find($id);
         return $flowers->toJson(JSON_PRETTY_PRINT);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\DB;
 use App\Models\Flower;
+use Illuminate\Support\Facades\Validator;
 
 class FlowerController extends Controller
 {
@@ -21,6 +22,65 @@ class FlowerController extends Controller
         // To display a specific view :
         return view('flowers', ['flowers' => $flowers]);
     }
+
+
+    public function home()
+    {
+        $flowers = Flower::all();
+
+        foreach ($flowers as $flower) {
+            echo 'Price : ' . $flower->price;
+            echo 'name : ' . $flower->name;
+            echo '<hr>';
+        }
+
+
+        // To display a specific view :
+        return view('home');
+
+    }
+
+
+    public function ajaxFlowerForm()
+    {
+        return view("Ajax-flower");
+    }
+
+   public function ajaxFlowerAnswer(Request $request)
+   {
+       // + Validations
+       $validations = Validator::make($request->all(), [
+           'name' => 'required|max:15',
+           'price' => 'required',
+       ]);
+
+       // + Upload file
+       $fileName = $request->file->getClientOriginalName(); //'randomName.' . $request->file->extension();
+       $public_path = public_path('uploads');
+
+       $request->file->move($public_path, $fileName);
+
+       // Message
+       if ($validations->fails())
+
+       return response()->json(['errors' => $validations->errors()->all()]);
+       // + Try to insert in the DB
+       $flower = new Flower;
+
+       $flower->name = $request->name;
+       $flower->price = $request->price;
+       $flower->poster = $fileName;
+
+       $flower->save();
+
+       if (!$flower->save())
+
+       return response()->json(['errors' => 'Problem inserting']);
+
+       return response()->json(['success' => 'Record is added']);
+   }
+
+
 
     /**
      * Show the form for creating a new resource.

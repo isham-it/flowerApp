@@ -11,7 +11,7 @@ class Flower extends Model
     use HasFactory;
 
     // Tell Laravel Im not using the timestamp
-    public $timestamps = false;
+    //public $timestamps = true;
 
     // Inner join :
     public function comments()
@@ -20,19 +20,25 @@ class Flower extends Model
     }
 
     // Accessors : getters
-    public function getPriceAttribute($price)
+    //public function getPriceAttribute($price)
+    //{
+        //return $this->attributes['price'] . " € ";
+   // }
+
+    public function getPriceFormattedAttribute($price)
     {
         return $this->attributes['price'] . " € ";
     }
 
 
-    public function getDateValue()
+    public function getUpdatedAtAttribute()
     {
-        return date('m/d/Y', strtotime($this->attributes['date']));
+        $timestamp = strtotime($this->attributes['updated_at']);
+        return date('d M Y', $timestamp);
     }
 
 
-
+    
 
 
 
