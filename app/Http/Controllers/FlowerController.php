@@ -23,65 +23,6 @@ class FlowerController extends Controller
         return view('flowers', ['flowers' => $flowers]);
     }
 
-
-    public function home()
-    {
-        $flowers = Flower::all();
-
-        foreach ($flowers as $flower) {
-            echo 'Price : ' . $flower->price;
-            echo 'name : ' . $flower->name;
-            echo '<hr>';
-        }
-
-
-        // To display a specific view :
-        return view('home');
-
-    }
-
-
-    public function ajaxFlowerForm()
-    {
-        return view("Ajax-flower");
-    }
-
-   public function ajaxFlowerAnswer(Request $request)
-   {
-       // + Validations
-       $validations = Validator::make($request->all(), [
-           'name' => 'required|max:15',
-           'price' => 'required',
-       ]);
-
-       // + Upload file
-       $fileName = $request->file->getClientOriginalName(); //'randomName.' . $request->file->extension();
-       $public_path = public_path('uploads');
-
-       $request->file->move($public_path, $fileName);
-
-       // Message
-       if ($validations->fails())
-
-       return response()->json(['errors' => $validations->errors()->all()]);
-       // + Try to insert in the DB
-       $flower = new Flower;
-
-       $flower->name = $request->name;
-       $flower->price = $request->price;
-       $flower->poster = $fileName;
-
-       $flower->save();
-
-       if (!$flower->save())
-
-       return response()->json(['errors' => 'Problem inserting']);
-
-       return response()->json(['success' => 'Record is added']);
-   }
-
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -91,12 +32,6 @@ class FlowerController extends Controller
     {
         return view('new-flower');
     }
-    public function comment()
-    {
-        return view('new-flower');
-    }
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -107,28 +42,25 @@ class FlowerController extends Controller
     public function store(Request $request)
     {
         // Validate automatically return back() to previous page if errors
-        $validated = $request->validate([
+        $validations = Validator::make($request->all(), [
             'name' => 'required|max:30',
             'price' => 'required|numeric|min:2|max:100',
         ]);
 
-        /*
-           DB::insert(
-            'INSERT INTO flowers(name, price) VALUES(?, ?)',
-            [$request->name, $request->price]
-        );
-*/
+        // Message
+        if ($validations->fails())
+            return response()->json(['errors' => $validations->errors()->all()]);
 
-        $flower = new Flower;
-
+        /*       $flower = new Flower;
         $flower->name = $request->name;
         $flower->price = $request->price;
+*/
+        $flower = Flower::create([
+            'name' => $request->name,
+            'price' => $request->price
+        ]);
 
-
-        $flower->save();
-
-        // redirect to flowers list with a message
-        return redirect('flowers')->with('success', $request->name . ' was created successfully');
+        return response()->json(['success' => 'Record is added']);
     }
 
     /**
@@ -143,27 +75,12 @@ class FlowerController extends Controller
         //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
         $flower = Flower::find($id);
 
-        $comments=$flower->comments;
-
-        //dd($flower->comments);
-
-        // Show the form
-        return view('details-flower', ['flower' => $flower,'comments'=>$comments]);
-
-    }
-    public function showType($type)
-    {
-        // Grab the flower
-        //$flower = DB::select('SELECT * FROM flowers WHERE id = ?', [$id]); // this returns an array
-        //$flower = Flower::find($id);
-        $flowers = Flower::where('type','like',$type)->get();
+        // How to access comments : dd($flower->comments);
+        $comments = $flower->comments;
 
         // Show the form
-        return view('flowers', ['type' => $type]);
-
+        return view('details-flower', ['flower' => $flower, 'comments' => $comments]);
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -179,7 +96,7 @@ class FlowerController extends Controller
         $flower = Flower::find($id);
 
         // Show the form
-        return view('update-flower', ['flower' => $flower]);
+        return view('register', ['flower' => $flower]);
     }
 
     /**
@@ -217,6 +134,4 @@ class FlowerController extends Controller
         // redirect to flowers list with a message
         return redirect('flowers')->with('success', 'Flower deleted');
     }
-
-
 }

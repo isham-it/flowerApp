@@ -3,6 +3,10 @@
 @section('title', 'Contact page')
 
 @section('content')
+@if ($username = Session::get('username'))
+<p style="color:green">{{ $username }}</p>
+@endif
+
 
 
 @if($message = Session::get('success'))

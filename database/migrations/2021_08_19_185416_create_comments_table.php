@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('flower_id');
 
             $table->foreign('flower_id')->references('id')->on('flowers');
-           // $table->timestamps();
+            $table->timestamps();
         });
     }
 

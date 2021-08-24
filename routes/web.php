@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FlowerController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ApiFlowerController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,53 +29,45 @@ Route::get('/', function () {
 
 Route::get('/flowers', [FlowerController::class, 'index']);
 
-//index page
-Route::get('/home', [FlowerController::class, 'home']);
-
 // Show the form to create flowers
 Route::get('/new-flower', [FlowerController::class, 'create']);
 Route::post('/new-flower', [FlowerController::class, 'store']);
-
 
 // Show the form to update a  flower
 Route::get('/update/flower/{id}', [FlowerController::class, 'edit'])->name('update.flower');
 Route::post('/update/flower/{id}', [FlowerController::class, 'update']);
 
-Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('delete.flower');
-
+Route::get('/delete/flower/{id}', [FlowerController::class, 'destroy'])->name('delete.flower');;
 
 // CREATE THE ROUTE TO DISPLAY ONE SPECIFIC FLOWER
 Route::get('/flower/{id}', [FlowerController::class, 'show'])->name('details.flower');
 
-
+// Movies
 Route::get('/movies', [MovieController::class, 'index']);
 
-
-Route::get('/api/get-movies', [ApiController::class, 'getMovies']);
-Route::get('/api/get-movie/title={title}', [ApiController::class, 'getMovie']);
-
-//create the route for API get flower
-Route::get('/api/get-flowers', [ApiFlowerController::class, 'getFlowers']);
-Route::get('/api/get-flower/{amount}', [ApiFlowerController::class, 'getAmountFlower']);
-Route::get('/api/get-flowers/{id}', [ApiFlowerController::class, 'getIdFlower']);
-Route::get('/api/get-type/{type}', [ApiFlowerController::class, 'getTypeFlower']);
+// Flower API
+Route::get('/api/get-flowers', [ApiController::class, 'getFlowers']);
+Route::get('/api/get-flowers/qty/{amount}', [ApiController::class, 'getFlowersAmount']);
+Route::get('/api/get-flower/id/{id}', [ApiController::class, 'getFlower']);
+Route::get('/api/get-flower/type/{type}', [ApiController::class, 'getFlowerType']);
 
 // Display the form
 Route::get('/ajax-form', [MovieController::class, 'ajaxForm'])->name('show.ajax.form');
-// When we submit the form MOVIE
+// When we submit the form
 Route::post('/ajax-answer', [MovieController::class, 'ajaxAnswer'])->name('submit.ajax.form');
 
-
-// Display the form FLOWER
-Route::get('/ajax-flower', [FlowerController::class, 'ajaxFlowerForm']);
-
-// When we submit the form
-Route::post('/ajax-flower', [FlowerController::class, 'ajaxFlowerAnswer'])->name('submit.ajax.form');
+// User register form :
+Route::get('/register', [UserController::class, 'create'])->name('register.form');
+// Submit register form
+Route::post('/register', [UserController::class, 'store'])->name('register.insert');
 
 
-//route USER
-// Display the form
-Route::get('/user-form', [UserController::class, 'ajaxForm']);
-// When we submit the form
-Route::post('/user-answer', [UserController::class, 'ajaxAnswer'])->name('submit.ajax.form');
+// User login form :
+Route::get('/login', [UserController::class, 'show_Login']);
+// Submit login form
+Route::post('/login', [UserController::class, 'login']);
 
+//MIDDLEWARE
+Route::get('/profile', function () {
+    //
+})->middleware('auth');

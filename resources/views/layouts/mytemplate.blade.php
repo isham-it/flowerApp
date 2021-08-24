@@ -15,6 +15,8 @@
             <li><a href="{{ url('home') }}">Index</a></li>
             <li><a href="{{ url('flowers') }}">Flowers page</a></li>
             <li><a href="{{ url('new-flower') }}">Create flower page</a></li>
+            <li><a href="{{ url('login') }}">login</a></li>
+            <li><a href="{{ url('register') }}">register</a></li>
         </ul>
     </nav>
 

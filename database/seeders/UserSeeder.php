@@ -16,14 +16,20 @@ class UserSeeder extends Seeder
     {
         DB::table('user')->insert([
             'username' => 'Rose',
-            'mail' => 'rose@gmail.com',
+            'email' => 'rose@gmail.com',
             'password' => 'coco',
         ]);
 
         DB::table('user')->insert([
             'username' => 'artur',
-            'mail' => 'artur@gmail.com',
+            'email' => 'artur@gmail.com',
             'password' => 'coca',
+        ]);
+
+        DB::table('user')->insert([
+            'username' => 'iveta',
+            'email' => 'iveta@gmail.com',
+            'password' => 'coci',
         ]);
 
 

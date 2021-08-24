@@ -13,6 +13,8 @@ class Flower extends Model
     // Tell Laravel Im not using the timestamp
     //public $timestamps = true;
 
+    protected $fillable = ['name', 'price'];
+
     // Inner join :
     public function comments()
     {
@@ -38,7 +40,7 @@ class Flower extends Model
     }
 
 
-    
+
 
 
 

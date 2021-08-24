@@ -2,30 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\CustomUser;
+use App\Models\User;
+use Illuminate\Support\Facades\hash;
 
 class UserController extends Controller
 {
+    //***************REGISTER******************
+    // Show the form
+    public function create()
+    {
+        return view('register-form');
+    }
+
     public function store(Request $request)
     {
-        // Validate automatically return back() to previous page if errors
-        $validations = Validator::make($request->all(), [
-            'username' => 'required|max:30',
-            'mail' => 'required|min:2|max:50',
-            'password' => 'required|min:2|max:50',
+        // Save user in DB
+
+        $validations = $request->validate([
+            'username' => 'required|max:50',
+            'email' => 'required|email:rfc',
+            'password' => 'required'
         ]);
 
-        // Message
-        if ($validations->fails())
-            return response()->json(['errors' => $validations->errors()->all()]);
+        $user = new CustomUser;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+
+        return 'Saved successfull';
+    }
 
 
-        $user = User::create([
-            'username' => $request->username,
-            'mail' => $request->mail,
-            'password' => $request->password
+    //****************LOGIN*******************
+
+    // Show the login form
+    public function show_Login()
+    {
+        return view('login-form');
+    }
+
+
+    //log the user
+    public function login(Request $request)
+    {
+        // Save user in DB
+
+        $validations = $request->validate([
+            'username' => 'required',
+            'password' => 'required'
         ]);
 
-        return response()->json(['success' => 'Record is added']);
+        $user = CustomUser::where('username', '=', $request->username)->first();
+
+        // Check if the user exists in the DB
+        if (isset($user)) {
+            // Check if password matches
+            if (Hash::check($request->password, $user->password)) {
+                // The passwords match...
+                $request->session()->put('username', $user->username);
+                return redirect('flowers');
+            }
+        } else {
+            return redirect()->back()->with('status', 'Username doesnt exists');
+        }
+    }
 }

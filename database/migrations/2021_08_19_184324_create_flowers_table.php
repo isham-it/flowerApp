@@ -20,7 +20,7 @@ class CreateFlowersTable extends Migration
             $table->enum('type',['Magnoliophyta','Asteraceae']);
 
 
-            //$table->timestamps();
+            $table->timestamps();
         });
     }
 
